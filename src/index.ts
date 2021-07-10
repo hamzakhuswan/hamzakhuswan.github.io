@@ -1,8 +1,8 @@
-import { AmbientLight, AnimationAction, AnimationMixer, CanvasTexture, Clock, DirectionalLight, Group, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, MeshStandardMaterial, NearestFilter, OrthographicCamera, PlaneGeometry, PointLight, RepeatWrapping, Scene, ShadowMaterial, WebGLRenderer } from "three";
+import { AmbientLight, AnimationAction, AnimationMixer, CanvasTexture, Clock, DirectionalLight, Group, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, NearestFilter, OrthographicCamera, PlaneGeometry, PointLight, RepeatWrapping, Scene, ShadowMaterial, WebGLRenderer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import LaptopUrl from "./assets/laptop.glb";
 import { degToRad } from "three/src/math/MathUtils";
 import { ScreenCanvas } from "./ScreenCanvas";
+import "./style.css";
 
 const canvas = document.getElementById("c") as HTMLCanvasElement;
 
@@ -19,7 +19,6 @@ orthoCamera.lookAt(0, 0, 0.025);
 
 const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.shadowMap.enabled = true;
-// renderer.setClearColor(0x7BB8E5);
 
 // Directional Light
 const directionalLight = new DirectionalLight(0xffffff, 1);
@@ -69,7 +68,7 @@ texture.repeat.x = - 1;
 const loader = new GLTFLoader();
 let action: AnimationAction;
 let mixer: AnimationMixer;
-loader.load(LaptopUrl, (gltf) => {
+loader.load("/laptop.glb", (gltf) => {
 
     const modal = new Group();
     gltf.scene.traverse(obj => {
