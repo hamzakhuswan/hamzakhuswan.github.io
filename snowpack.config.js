@@ -1,9 +1,8 @@
 //** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    "dist": "/",
-    "src": "/",
-    "node_modules/@fontsource/manrope/files": "/files",
+    "public": { url: '/', static: true, resolve: false },
+    "src": "/"
   },
   devOptions: {
     tailwindConfig: "./tailwind.config.js",
