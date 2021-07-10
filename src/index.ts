@@ -1,7 +1,6 @@
-import { AmbientLight, AnimationAction, AnimationMixer, CameraHelper, CanvasTexture, Clock, DirectionalLight, DirectionalLightHelper, Group, HemisphereLight, Light, LinearMipMapLinearFilter, LoopOnce, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshStandardMaterial, NearestFilter, OrthographicCamera, PerspectiveCamera, PlaneGeometry, PointLight, PointLightHelper, RepeatWrapping, Scene, WebGLRenderer } from "three";
+import { AmbientLight, AnimationAction, AnimationMixer, CanvasTexture, Clock, DirectionalLight, Group, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, MeshStandardMaterial, NearestFilter, OrthographicCamera, PlaneGeometry, PointLight, RepeatWrapping, Scene, WebGLRenderer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import LaptopUrl from "url:./laptop.glb";
+import LaptopUrl from "./assets/laptop.glb";
 import { degToRad } from "three/src/math/MathUtils";
 import { ScreenCanvas } from "./ScreenCanvas";
 
@@ -38,16 +37,10 @@ const pointLight1 = new PointLight(0x86C1CC, 0.5, 100);
 pointLight1.position.set(0, 0, -0.15);
 scene.add(pointLight1);
 
-// const sphereSize = 0.1;
-// const pointLight1Helper = new PointLightHelper(pointLight1, sphereSize);
-// scene.add(pointLight1Helper);
 
 const pointLight2 = new PointLight(0x86C1CC, 0.5, 100);
 pointLight2.position.set(0, 0, 0.15);
 scene.add(pointLight2);
-
-// const pointLight2Helper = new PointLightHelper(pointLight2, 0.1);
-// scene.add(pointLight2Helper);
 
 // Ambient light 
 const ambLight = new AmbientLight(0x343434);

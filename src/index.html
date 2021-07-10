@@ -7,23 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hamza Khuswan - Web developer</title>
     <meta name="description" content="Hamza Khuswan web developer, learner, freelancer and more.">
-    <script defer src="index.ts"></script>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            height: 100vh;
-        }
-        #c {
-            width: 1280px;
-            height: 720px;
-        }
-    </style>
+    <link rel="preload" href="./assets/laptop.glb" as="fetch" crossorigin>
+    <link rel="preload" href="./assets/Manrope-Bold.ttf" as="font" crossorigin>
+    <link rel="preload" href="./assets/Manrope-Regular.ttf" as="font" crossorigin>
+    <link rel="stylesheet" href="./styles.css">
+    <script defer type="module" src="index.js"></script>
 </head>
 
 <body>
-    <canvas id="c"></canvas>
+    <div class="lg:flex md:justify-between">
+        <canvas id="c" class="w-full lg:w-4/12 h-[400px] lg:h-screen order-last"></canvas>
+        <main class="w-full max-w-screen-md mx-auto space-y-4 text-lg my-12 px-2">
+            <h1 class="text-5xl font-bold">Hi!</h1>
+            <p><b>I am Hamza Khuswan, a freelance web developer.</b></p>
+        </main>
+    </div>
 </body>
 
 </html>

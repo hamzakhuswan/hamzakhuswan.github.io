@@ -7,14 +7,19 @@
   "license": "",
   "private": true,
   "scripts": {
-    "start": "parcel serve ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "start": "snowpack dev",
+    "build": "snowpack build"
   },
   "devDependencies": {
-    "parcel": "^2.0.0-beta.3.1"
+    "@snowpack/plugin-build-script": "^2.1.0",
+    "@snowpack/plugin-postcss": "^1.4.3",
+    "@types/three": "^0.130.0",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.5",
+    "snowpack": "^3.7.1"
   },
   "dependencies": {
-    "@types/three": "^0.130.0",
+    "tailwindcss": "^2.2.4",
     "three": "^0.130.1"
   }
 }
