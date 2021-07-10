@@ -1,4 +1,4 @@
-import { AmbientLight, AnimationAction, AnimationMixer, CanvasTexture, Clock, DirectionalLight, Group, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, MeshStandardMaterial, NearestFilter, OrthographicCamera, PlaneGeometry, PointLight, RepeatWrapping, Scene, WebGLRenderer } from "three";
+import { AmbientLight, AnimationAction, AnimationMixer, CanvasTexture, Clock, DirectionalLight, Group, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, MeshStandardMaterial, NearestFilter, OrthographicCamera, PlaneGeometry, PointLight, RepeatWrapping, Scene, ShadowMaterial, WebGLRenderer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import LaptopUrl from "./assets/laptop.glb";
 import { degToRad } from "three/src/math/MathUtils";
@@ -17,9 +17,9 @@ orthoCamera.position.z = Math.sin(initialAngle) * 10;
 orthoCamera.zoom = 1000;
 orthoCamera.lookAt(0, 0, 0.025);
 
-const renderer = new WebGLRenderer({ canvas, antialias: true, });
+const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.shadowMap.enabled = true;
-renderer.setClearColor(0x7BB8E5);
+// renderer.setClearColor(0x7BB8E5);
 
 // Directional Light
 const directionalLight = new DirectionalLight(0xffffff, 1);
@@ -48,7 +48,7 @@ scene.add(ambLight);
 
 // Plane
 const planeGeo = new PlaneGeometry(10, 10);
-const planeMat = new MeshStandardMaterial({ color: 0x7BB8E5 });
+const planeMat = new ShadowMaterial();
 const plane = new Mesh(planeGeo, planeMat);
 plane.receiveShadow = true;
 plane.rotateX(degToRad(-90));
