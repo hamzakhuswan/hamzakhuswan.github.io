@@ -15,8 +15,6 @@ export class ScreenCanvas {
     private startY: number;
     private startX: number;
     private codeColors = ["#4594BF", "#94D0F0", "#D0C273", "#C38956"];
-    private comentColor = "#599423";
-    private bracketsColor = "#737B81";
     private tabIndex = 0;
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;

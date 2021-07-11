@@ -1,4 +1,4 @@
-import { AmbientLight, AnimationAction, AnimationMixer, CanvasTexture, Clock, DirectionalLight, Group, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, NearestFilter, OrthographicCamera, PlaneGeometry, PointLight, RepeatWrapping, Scene, ShadowMaterial, WebGLRenderer } from "three";
+import { AmbientLight, AnimationMixer, CanvasTexture, Clock, DirectionalLight, LinearMipMapLinearFilter, Mesh, MeshBasicMaterial, NearestFilter, Object3D, OrthographicCamera, PCFSoftShadowMap, PlaneGeometry, PointLight, RepeatWrapping, Scene, ShadowMaterial, WebGLRenderer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { degToRad } from "three/src/math/MathUtils";
 import { ScreenCanvas } from "./ScreenCanvas";
@@ -9,26 +9,28 @@ const canvas = document.getElementById("c") as HTMLCanvasElement;
 const scene = new Scene();
 
 // Camera
-const initialAngle = - Math.PI / 2
 const orthoCamera = new OrthographicCamera(-2, 2, 1, -1, 0, 2000);
-orthoCamera.position.x = Math.cos(initialAngle) * 10;
-orthoCamera.position.y = 8;
-orthoCamera.position.z = Math.sin(initialAngle) * 10;
-orthoCamera.zoom = 1000;
-orthoCamera.lookAt(0, 0, 0.025);
+orthoCamera.position.x = -0.1;
+orthoCamera.position.y = 4;
+orthoCamera.position.z = -5;
+orthoCamera.zoom = 1200;
+orthoCamera.lookAt(0,0,.15);
 
 const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.shadowMap.enabled = true;
 
 // Directional Light
 const directionalLight = new DirectionalLight(0xffffff, 1);
 directionalLight.castShadow = true;
-directionalLight.shadow.camera.left = -0.15;
-directionalLight.shadow.camera.right = 0.15;
-directionalLight.shadow.camera.top = -0.15;
-directionalLight.shadow.camera.bottom = 0.15;
+directionalLight.shadow.camera.left = -0.3;
+directionalLight.shadow.camera.right = 0.4;
+directionalLight.shadow.camera.top = -0.2;
+directionalLight.shadow.camera.bottom = 0.2;
 directionalLight.position.z = 0.2;
 directionalLight.position.set(0, 1, .2)
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
 scene.add(directionalLight);
 
 // Point Light
@@ -51,7 +53,6 @@ const planeMat = new ShadowMaterial();
 const plane = new Mesh(planeGeo, planeMat);
 plane.receiveShadow = true;
 plane.rotateX(degToRad(-90));
-plane.position.y = -0.07;
 scene.add(plane);
 
 // Sreen texture
@@ -66,12 +67,11 @@ texture.repeat.x = - 1;
 
 // Gemotry 
 const loader = new GLTFLoader();
-let action: AnimationAction;
 let mixer: AnimationMixer;
+let laptop: Object3D;
 loader.load("/laptop.glb", (gltf) => {
-
-    const modal = new Group();
     gltf.scene.traverse(obj => {
+        if (obj.name === "Cube001") laptop = obj;
         if (obj.type === "Mesh") {
             obj.castShadow = true;
             if (obj.name == "Cube003") {
@@ -108,11 +108,11 @@ function needResize() {
     return false;
 }
 
-// Event listenr of mouse postion relative to the center of the canvas normilized -Pi/16 to Pi/16
+// Event listenr of mouse postion relative to the center of the canvas multiped by 0.0001
 let mouseAngle: number = 0;
 canvas.addEventListener("mousemove", (ev) => {
     const box = canvas.getBoundingClientRect();
-    mouseAngle = (ev.x - box.right + box.width / 2) / canvas.clientWidth * 2 * Math.PI / 16;
+    mouseAngle = (ev.x - box.right + box.width / 2) * 0.0001;
 });
 canvas.addEventListener("touchmove", (ev) => {
     const box = canvas.getBoundingClientRect();
@@ -125,9 +125,7 @@ const clock = new Clock();
 const animate = function () {
     requestAnimationFrame(animate);
 
-    orthoCamera.position.x = Math.cos(initialAngle + mouseAngle) * 10 - 5;
-    orthoCamera.position.z = Math.sin(initialAngle + mouseAngle) * 10;
-    orthoCamera.lookAt(0, 0, 0.025)
+    if (laptop) laptop.rotation.y = mouseAngle;
 
     const delay = 500;
     const current = Date.now();
