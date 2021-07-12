@@ -3,6 +3,9 @@ const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
+const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
+const threeMinifier = new ThreeMinifierPlugin();
+
 
 module.exports = {
     mode: "production",
@@ -13,6 +16,7 @@ module.exports = {
         clean: true
     },
     plugins: [
+        threeMinifier,
         new HtmlWebpackPlugin({ template: path.resolve(__dirname, "./src/index.html") }),
         new PreloadWebpackPlugin({
             rel: 'preload',
@@ -25,11 +29,14 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "./public/**", to: "." },
+                { from: "public" },
             ],
-        }),
+        })
     ],
     resolve: {
+        plugins: [
+            threeMinifier.resolver,
+        ],
         extensions: [".ts", ".tsx", ".js"]
     },
     module: {
