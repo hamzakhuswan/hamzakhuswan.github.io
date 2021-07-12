@@ -13,10 +13,11 @@ const orthoCamera = new OrthographicCamera(-2, 2, 1, -1, 0, 2000);
 orthoCamera.position.x = -0.1;
 orthoCamera.position.y = 4;
 orthoCamera.position.z = -5;
-orthoCamera.zoom = 1200;
-orthoCamera.lookAt(0,0,.15);
+orthoCamera.zoom = 1000;
+orthoCamera.lookAt(0, 0, .15);
 
 const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.pixelRatio = devicePixelRatio > 2 ? 2 : devicePixelRatio;
 renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.shadowMap.enabled = true;
 
@@ -90,6 +91,8 @@ loader.load("/laptop.glb", (gltf) => {
     })
     scene.add(gltf.scene);
 
+    canvas.classList.remove("hidden");
+    document.getElementById("s").classList.add("hidden")
     mixer = new AnimationMixer(gltf.scene);
     gltf.animations.map(animation => mixer.clipAction(animation).play());
 
@@ -110,14 +113,14 @@ function needResize() {
 
 // Event listenr of mouse postion relative to the center of the canvas multiped by 0.0001
 let mouseAngle: number = 0;
-canvas.addEventListener("mousemove", (ev) => {
+window.addEventListener("mousemove", (ev) => {
     const box = canvas.getBoundingClientRect();
     mouseAngle = (ev.x - box.right + box.width / 2) * 0.0001;
-});
-canvas.addEventListener("touchmove", (ev) => {
+}, { passive: true });
+window.addEventListener("touchmove", (ev) => {
     const box = canvas.getBoundingClientRect();
     mouseAngle = (ev.touches[0].pageX - box.right + box.width / 2) / canvas.clientWidth * 2 * Math.PI / 16;
-});
+}, { passive: true });
 
 let start = Date.now();
 const clock = new Clock();
